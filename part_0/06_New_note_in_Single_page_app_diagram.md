@@ -12,6 +12,6 @@ sequenceDiagram
     Note left of server: The server saves the new note
     server-->>browser: HTTP status code 201 (Created)
     deactivate server
-
+    
     Note right of browser: No further requests are made; the page does not reload
 ```
