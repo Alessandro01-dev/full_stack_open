@@ -23,7 +23,7 @@ You can find the deployed application here:
 - **[Phonebook Backend](./backend)**  
   *A robust backend for the Phonebook application. It handles contact data through a MongoDB database, includes full validation (unique names, minimum lengths), and provides a clean API for the frontend to consume. The code is linted with ESLint according to the course standards.*
 
-- **[Phonebook Frontend (Full Stack)](./frontend)**  
+- **[Phonebook Frontend](./frontend)**  
   *The updated version of the Part 2 frontend, now modified to communicate with the real Node.js backend. It supports permanent data storage and displays server-side validation error messages.*
 
 ---
