@@ -5,11 +5,31 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
+const bcrypt = require('bcrypt')
+
+let token = null
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  await Blog.insertMany(helper.initialBlogs)
+  await User.deleteMany({})
+
+  const passwordHash = await bcrypt.hash('secretPassword', 10)
+  const user = new User({ username: 'testuser', passwordHash })
+  const savedUser = await user.save() 
+
+  const blogsWithUser = helper.initialBlogs.map(blog => ({
+    ...blog,
+    user: savedUser._id
+  }))
+  await Blog.insertMany(blogsWithUser)
+
+  const result = await api
+    .post('/api/login')
+    .send({ username: 'testuser', password: 'secretPassword' })
+
+  token = result.body.token
 })
 
 describe('when there is initially some blogs saved', () => {
@@ -51,15 +71,14 @@ describe('addition of a new blog', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
     assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length + 1)
-
-    const titles = blogsAtEnd.map(n => n.title)
-    assert(titles.includes('Canonical string reduction'))
+    assert.ok(blogsAtEnd.map(n => n.title).includes("Canonical string reduction"))
   })
 
   test('fails with status code 400 if data invalid', async () => {
@@ -70,6 +89,7 @@ describe('addition of a new blog', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(400)
 
@@ -86,6 +106,7 @@ describe('addition of a new blog', () => {
 
     const response = await api
       .post('/api/blogs')
+      .set('Authorization', `Bearer ${token}`)
       .send(newBlog)
       .expect(201)
 
@@ -118,10 +139,10 @@ describe('deletion of a blog', () => {
 
     await api
       .delete(`/api/blogs/${blogtoDelete.id}`)
+      .set('Authorization', `Bearer ${token}`)
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
-
     assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
   })
 })
