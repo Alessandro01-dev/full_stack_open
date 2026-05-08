@@ -56,11 +56,19 @@ const App = () => {
     try {
       const addedBlog = await blogService.create(newBlog)
       blogFormRef.current.toggleVisibility()
+      const blogWithUser = {
+        ...addedBlog,
+        user: {
+          username: user.username,
+          name: user.name,
+          id: addedBlog.user
+        }
+      }
       setSuccessMessage(`a new blog ${addedBlog.title} by ${addedBlog.author} added`)
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
-      setBlogs(blogs.concat(addedBlog))
+      setBlogs(blogs.concat(blogWithUser))
     } catch {
       setErrorMessage('failed to add blog: check title and url')
       setTimeout(() => {
