@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { TextField, Button, Box, Typography } from '@mui/material'
 
 const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
@@ -19,27 +20,51 @@ const BlogForm = ({ createBlog }) => {
   }
 
   return (
-    <form onSubmit={addBlog}>
-      <div>
-        <label>
-          title:
-          <input value={title} onChange={({ target }) => setTitle(target.value)} />
-        </label>
-      </div>
-      <div>
-        <label>
-          author:
-          <input value={author} onChange={({ target }) => setAuthor(target.value)} />
-        </label>
-      </div>
-      <div>
-        <label>
-          url:
-          <input value={url} onChange={({ target }) => setUrl(target.value)} />
-        </label>
-      </div>
-      <button type="submit">create</button>
-    </form>
+    <Box sx={{ mt: 2, width: '50ch' }}>
+      <form onSubmit={addBlog}>
+        <div>
+          <TextField
+            variant="outlined"
+            label="title"
+            fullWidth
+            margin="normal"
+            value={title}
+            name="title"
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            variant="outlined"
+            label="author"
+            fullWidth
+            margin="normal"
+            value={author}
+            name="author"
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            variant="outlined"
+            label="url"
+            fullWidth
+            margin="normal"
+            value={url}
+            name="url"
+            onChange={({ target }) => setUrl(target.value)}
+          />
+        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          sx={{ mt: 2 }}
+        >
+          create
+        </Button>
+      </form>
+    </Box>
   )
 }
 

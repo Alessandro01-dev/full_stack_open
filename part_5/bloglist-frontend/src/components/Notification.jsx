@@ -1,3 +1,4 @@
+import { Alert } from '@mui/material'
 import PropTypes from 'prop-types'
 
 const Notification = ({ message, type }) => {
@@ -6,9 +7,9 @@ const Notification = ({ message, type }) => {
   }
 
   return (
-    <div className={type}>
+    <Alert severity={type === 'error' ? 'error' : 'success'} sx={{ my: 4 }}>
       {message}
-    </div>
+    </Alert>
   )
 }
 

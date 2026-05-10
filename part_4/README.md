@@ -15,7 +15,7 @@ The focus of these exercises is to professionalize the backend development by im
 
 ### 🛠️ Exercises:
 
-- **[Blog List Backend](./)**  
+- **[Blog List Backend](./bloglist)**  
   *A comprehensive backend for a blog management system. It features a complete REST API with the following capabilities:*
   - **Testing Suite**: *A full set of integration tests that verify API behavior, database consistency, and security rules.*
   - **User Management**: *Supports user creation with validated credentials (unique usernames and minimum password length).*
