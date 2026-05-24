@@ -1,8 +1,61 @@
-const Authors = (props) => {
-  if (!props.show) {
-    return null
+import { gql } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client/react";
+import { useState } from "react";
+
+const ALL_AUTHORS = gql`
+  query {
+    allAuthors {
+      name
+      born
+      bookCount
+      id
+    }
   }
-  const authors = []
+`;
+
+const EDIT_AUTHOR = gql`
+  mutation modifyAuthor($name: String!, $setBornTo: Int!) {
+    editAuthor(name: $name, setBornTo: $setBornTo) {
+      name
+      born
+      id
+    }
+  }
+`;
+
+const Authors = (props) => {
+  const [name, setName] = useState("");
+  const [born, setBorn] = useState("");
+
+  const result = useQuery(ALL_AUTHORS);
+
+  const [changeBorn] = useMutation(EDIT_AUTHOR, {
+    refetchQueries: [{ query: ALL_AUTHORS }],
+  });
+
+  if (!props.show) {
+    return null;
+  }
+
+  if (result.loading) {
+    return <div>loading...</div>;
+  }
+
+  const authors = result.data.allAuthors;
+
+  const submit = async (event) => {
+    event.preventDefault();
+
+    changeBorn({
+      variables: {
+        name,
+        setBornTo: parseInt(born),
+      },
+    });
+
+    setName("");
+    setBorn("");
+  };
 
   return (
     <div>
@@ -23,8 +76,39 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-    </div>
-  )
-}
 
-export default Authors
+      <h3>Set birthyear</h3>
+      <form onSubmit={submit}>
+        <div>
+          <label>
+            name
+            <select
+              value={name}
+              onChange={({ target }) => setName(target.value)}
+            >
+              <option value="">Select an author...</option>
+              {authors.map((a) => (
+                <option key={a.id} value={a.name}>
+                  {a.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>
+            born
+            <input
+              type="number"
+              value={born}
+              onChange={({ target }) => setBorn(target.value)}
+            />
+          </label>
+        </div>
+        <button type="submit">update author</button>
+      </form>
+    </div>
+  );
+};
+
+export default Authors;
