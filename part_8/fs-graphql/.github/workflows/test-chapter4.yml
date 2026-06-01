@@ -18,13 +18,13 @@ jobs:
           node-version: 24
 
       - name: Install library-backend dependencies
-        working-directory: part_8/library-backend
+        working-directory: library-backend
         run: npm ci
 
       - name: Install test dependencies
-        working-directory: part_8/tests-chapter4
+        working-directory: tests-chapter4
         run: npm ci
 
       - name: Run tests
-        working-directory: part_8/tests-chapter4
+        working-directory: tests-chapter4
         run: npm test
