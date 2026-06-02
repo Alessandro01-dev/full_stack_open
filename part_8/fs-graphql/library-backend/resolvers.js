@@ -5,6 +5,8 @@ const Book = require("./models/book");
 const User = require("./models/user");
 const path = require("path");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
+const { PubSub } = require("graphql-subscriptions");
+const pubsub = new PubSub();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -28,15 +30,15 @@ const resolvers = {
       return Book.find(filter).populate("author");
     },
     allAuthors: async () => {
-      return Author.find({});
+      return Author.find({}).populate("books");
     },
     me: (root, args, context) => {
       return context.currentUser;
     },
   },
   Author: {
-    bookCount: async (root) => {
-      return Book.collection.countDocuments({ author: root._id });
+    bookCount: (root) => {
+      return root.books.length;
     },
   },
   Mutation: {
@@ -80,9 +82,7 @@ const resolvers = {
       const currentUser = context.currentUser;
       if (!currentUser) {
         throw new GraphQLError("not authenticated", {
-          extensions: {
-            code: "UNAUTHENTICATED",
-          },
+          extensions: { code: "UNAUTHENTICATED" },
         });
       }
 
@@ -91,7 +91,6 @@ const resolvers = {
       if (!author) {
         try {
           author = new Author({ name: args.author });
-          await author.save();
         } catch (error) {
           throw new GraphQLError(error.message, {
             extensions: {
@@ -111,7 +110,14 @@ const resolvers = {
           author: author._id,
         });
         await book.save();
-        return book.populate("author");
+
+        author.books = author.books.concat(book._id);
+        await author.save();
+
+        const populatedBook = await book.populate("author");
+        pubsub.publish("BOOK_ADDED", { bookAdded: populatedBook });
+
+        return populatedBook;
       } catch (error) {
         throw new GraphQLError(`Saving book failed: ${error.message}`, {
           extensions: {
@@ -165,6 +171,12 @@ const resolvers = {
       await Book.deleteMany({});
       await User.deleteMany({});
       return true;
+    },
+  },
+
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterableIterator("BOOK_ADDED"),
     },
   },
 };

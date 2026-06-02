@@ -3,8 +3,11 @@ import Authors from "./components/Authors";
 import Books from "./components/Books";
 import NewBook from "./components/NewBook";
 import LoginForm from "./components/LoginForm";
-import { useApolloClient } from "@apollo/client/react";
 import Recommendations from "./components/Recommendations";
+import { useApolloClient, useSubscription } from "@apollo/client/react";
+
+import { BOOK_ADDED, ALL_BOOKS } from "./queries";
+import { updateCache } from "./utils/apolloCache";
 
 const App = () => {
   const [page, setPage] = useState("authors");
@@ -12,6 +15,16 @@ const App = () => {
     localStorage.getItem("library-user-token"),
   );
   const client = useApolloClient();
+
+  useSubscription(BOOK_ADDED, {
+    onData: ({ data }) => {
+      const addedBook = data.data.bookAdded;
+
+      window.alert(`Book added: ${addedBook.title}`);
+
+      updateCache(client.cache, ALL_BOOKS, addedBook);
+    },
+  });
 
   const logout = () => {
     setToken(null);

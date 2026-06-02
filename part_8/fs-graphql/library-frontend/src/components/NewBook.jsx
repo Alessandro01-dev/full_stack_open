@@ -1,42 +1,8 @@
 import { useState } from "react";
 import { gql } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
-import { ALL_BOOKS } from "./Books";
-
-const CREATE_BOOK = gql`
-  mutation createBook(
-    $title: String!
-    $author: String!
-    $published: Int!
-    $genres: [String!]!
-  ) {
-    addBook(
-      title: $title
-      author: $author
-      published: $published
-      genres: $genres
-    ) {
-      title
-      author {
-        name
-      }
-      published
-      id
-      genres
-    }
-  }
-`;
-
-const ALL_AUTHORS = gql`
-  query {
-    allAuthors {
-      name
-      born
-      bookCount
-      id
-    }
-  }
-`;
+import { CREATE_BOOK, ALL_AUTHORS, ALL_BOOKS } from "../queries";
+import { updateCache } from "../utils/apolloCache";
 
 const NewBook = (props) => {
   const [title, setTitle] = useState("");
@@ -49,15 +15,7 @@ const NewBook = (props) => {
     refetchQueries: [{ query: ALL_AUTHORS }],
     update: (cache, response) => {
       try {
-        cache.updateQuery(
-          { query: ALL_BOOKS, variables: { genre: null } },
-          (data) => {
-            if (!data) return;
-            return {
-              allBooks: data.allBooks.concat(response.data.addBook),
-            };
-          },
-        );
+        updateCache(cache, ALL_BOOKS, response.data.addBook);
       } catch (e) {
         console.log("Query not yet loaded in cache");
       }

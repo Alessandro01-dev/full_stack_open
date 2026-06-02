@@ -1,29 +1,7 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useEffect } from "react";
-
-const ME = gql`
-  query {
-    me {
-      username
-      favoriteGenre
-    }
-  }
-`;
-
-const ALL_BOOKS = gql`
-  query fetchAllBooks($genre: String) {
-    allBooks(genre: $genre) {
-      title
-      author {
-        name
-      }
-      published
-      genres
-      id
-    }
-  }
-`;
+import { ME, ALL_BOOKS } from "../queries";
 
 const Recommendations = (props) => {
   const userResult = useQuery(ME);
