@@ -1,33 +1,57 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
+import { useState } from "react";
 
-const ALL_BOOKS = gql`
-  query {
-    allBooks {
+export const ALL_BOOKS = gql`
+  query fetchAllBooks($genre: String) {
+    allBooks(genre: $genre) {
       title
-      author
+      author {
+        name
+      }
       published
+      genres
       id
     }
   }
 `;
 
 const Books = (props) => {
-  const result = useQuery(ALL_BOOKS);
+  const [selectedGenre, setSelectedGenre] = useState("all");
+
+  const result = useQuery(ALL_BOOKS, {
+    variables: { genre: selectedGenre === "all" ? null : selectedGenre },
+  });
+
+  const genresResult = useQuery(ALL_BOOKS, {
+    variables: { genre: null },
+  });
 
   if (!props.show) {
     return null;
   }
 
-  if (result.loading) {
+  if (result.loading || genresResult.loading) {
     return <div>loading...</div>;
   }
 
   const books = result.data.allBooks;
+  const allBooksForGenres = genresResult.data.allBooks;
+
+  const allGenresWithDuplicates = allBooksForGenres.flatMap(
+    (b) => b.genres || [],
+  );
+  const uniqueGenres = [...new Set(allGenresWithDuplicates)];
 
   return (
     <div>
       <h2>books</h2>
+
+      {selectedGenre !== "all" && (
+        <p>
+          in genre <strong>{selectedGenre}</strong>
+        </p>
+      )}
 
       <table>
         <tbody>
@@ -39,12 +63,21 @@ const Books = (props) => {
           {books.map((a) => (
             <tr key={a.id}>
               <td>{a.title}</td>
-              <td>{a.author}</td>
+              <td>{a.author.name}</td>
               <td>{a.published}</td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <div>
+        {uniqueGenres.map((genre) => (
+          <button key={genre} onClick={() => setSelectedGenre(genre)}>
+            {genre}
+          </button>
+        ))}
+        <button onClick={() => setSelectedGenre("all")}>all genres</button>
+      </div>
     </div>
   );
 };

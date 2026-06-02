@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { gql } from "@apollo/client";
 import { useMutation } from "@apollo/client/react";
+import { ALL_BOOKS } from "./Books";
 
 const CREATE_BOOK = gql`
   mutation createBook(
@@ -16,7 +17,9 @@ const CREATE_BOOK = gql`
       genres: $genres
     ) {
       title
-      author
+      author {
+        name
+      }
       published
       id
       genres
@@ -35,17 +38,6 @@ const ALL_AUTHORS = gql`
   }
 `;
 
-const ALL_BOOKS = gql`
-  query {
-    allBooks {
-      title
-      author
-      published
-      id
-    }
-  }
-`;
-
 const NewBook = (props) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -54,7 +46,22 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([]);
 
   const [addBook] = useMutation(CREATE_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+    refetchQueries: [{ query: ALL_AUTHORS }],
+    update: (cache, response) => {
+      try {
+        cache.updateQuery(
+          { query: ALL_BOOKS, variables: { genre: null } },
+          (data) => {
+            if (!data) return;
+            return {
+              allBooks: data.allBooks.concat(response.data.addBook),
+            };
+          },
+        );
+      } catch (e) {
+        console.log("Query not yet loaded in cache");
+      }
+    },
   });
 
   if (!props.show) {
