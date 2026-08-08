@@ -28,3 +28,7 @@ jobs:
       - name: Run tests
         working-directory: ./part_8/fs-graphql/tests-chapter4
         run: npm test
+
+env:
+  JWT_SECRET: "test_secret"
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
