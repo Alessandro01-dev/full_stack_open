@@ -8,7 +8,7 @@ import type {
   Entry,
 } from "../types.ts";
 
-const patients: Patient[] = patientsData as Patient[];
+const patients: Patient[] = patientsData;
 
 const getEntries = (): Patient[] => {
   return patients;
@@ -25,7 +25,7 @@ const getNonSensitiveEntries = (): NonSensitivePatient[] => {
 };
 
 const getPatientById = (id: string): Patient | undefined => {
-  const patient = patients.find(p => p.id === id);
+  const patient = patients.find((p) => p.id === id);
   return patient;
 };
 
@@ -34,14 +34,17 @@ const addPatient = (entry: NewPatientEntry): Patient => {
   const newPatientEntry: Patient = {
     id: id,
     ...entry,
-    entries: []
+    entries: [],
   };
 
   patients.push(newPatientEntry);
   return newPatientEntry;
 };
 
-const addEntryToPatient = (patientId: string, entryWithoutId: NewEntry): Entry => {
+const addEntryToPatient = (
+  patientId: string,
+  entryWithoutId: NewEntry,
+): Entry => {
   const entryId = uuid();
 
   const newEntry: Entry = {
@@ -49,7 +52,7 @@ const addEntryToPatient = (patientId: string, entryWithoutId: NewEntry): Entry =
     ...entryWithoutId,
   };
 
-  const patient = patients.find(p => p.id === patientId);
+  const patient = patients.find((p) => p.id === patientId);
   if (!patient) {
     throw new Error("Patient not found");
   }
