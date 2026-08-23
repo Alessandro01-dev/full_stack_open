@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import theme from "../theme";
-import Text from "./Text";
-import useSignIn from "../hooks/useSignIn";
+import theme from "../../theme";
+import Text from "../Text";
+import useSignIn from "../../hooks/useSignIn";
 import { useNavigate } from "react-router-native";
 
 const styles = StyleSheet.create({
@@ -59,23 +59,7 @@ const validationSchema = yup.object().shape({
   password: yup.string().required("Password is required"),
 });
 
-const SignIn = () => {
-  const [signIn] = useSignIn();
-  const navigate = useNavigate();
-
-  const onSubmit = async (values) => {
-    const { username, password } = values;
-
-    try {
-      const response = await signIn({ username, password });
-      if (response.data?.authenticate) {
-        navigate("/");
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
+export const SignInContainer = ({ onSubmit }) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -126,6 +110,26 @@ const SignIn = () => {
       </View>
     </TouchableWithoutFeedback>
   );
+};
+
+const SignIn = () => {
+  const [signIn] = useSignIn();
+  const navigate = useNavigate();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const response = await signIn({ username, password });
+      if (response.data?.authenticate) {
+        navigate("/");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return <SignInContainer onSubmit={onSubmit} />;
 };
 
 export default SignIn;

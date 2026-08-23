@@ -67,7 +67,7 @@ const StatColumn = ({ label, value }) => (
 
 const RepositoryItem = ({ item }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="repositoryItem">
       <View style={styles.topSection}>
         <Image source={{ uri: item.ownerAvatarUrl }} style={styles.avatar} />
 
