@@ -41,6 +41,7 @@ const AppBar = () => {
 
   const { data } = useQuery(ME, {
     fetchPolicy: "cache-and-network",
+    variables: { includeReviews: false },
   });
 
   const user = data ? data.me : null;
@@ -58,6 +59,8 @@ const AppBar = () => {
         showsHorizontalScrollIndicator={false}
       >
         <AppBarTab to="/">Repositories</AppBarTab>
+        {user && <AppBarTab to="/review">Create a review</AppBarTab>}
+        {user && <AppBarTab to="/myreviews">My reviews</AppBarTab>}
         {user ? (
           <Pressable onPress={handleSignOut} style={styles.tab}>
             <Text
@@ -69,7 +72,10 @@ const AppBar = () => {
             </Text>
           </Pressable>
         ) : (
-          <AppBarTab to="/signin">Sign in</AppBarTab>
+          <>
+            <AppBarTab to="/signin">Sign in</AppBarTab>
+            <AppBarTab to="/signup">Sign up</AppBarTab>
+          </>
         )}
       </ScrollView>
     </View>
