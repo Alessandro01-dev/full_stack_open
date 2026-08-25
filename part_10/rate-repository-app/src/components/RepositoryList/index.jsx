@@ -1,4 +1,4 @@
-import { FlatList, View, StyleSheet, Text, Pressable, TextInput } from "react-native";
+import { FlatList, View, StyleSheet, Text, Pressable, TextInput, ActivityIndicator } from "react-native";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { Picker } from "@react-native-picker/picker";
@@ -53,6 +53,8 @@ export const RepositoryListContainer = ({
   searchKeyword,
   onSearchKeywordChange,
   loading,
+  onEndReached,
+  fetchingMore,
 }) => {
   const navigate = useNavigate();
 
@@ -87,10 +89,15 @@ export const RepositoryListContainer = ({
     </View>
   );
 
+  const listFooter = fetchingMore ? (
+    <ActivityIndicator style={{ margin: 15 }} size="large" />
+  ) : null;
+
   return (
     <FlatList
       data={repositoryNodes}
       ListEmptyComponent={listEmpty}
+      ListFooterComponent={listFooter}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => (
         <Pressable onPress={() => navigate(`/repository/${item.id}`)}>
@@ -99,6 +106,8 @@ export const RepositoryListContainer = ({
       )}
       keyExtractor={(item) => item.id}
       ListHeaderComponent={listHeader}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
     />
   );
 };
@@ -110,7 +119,8 @@ const RepositoryList = () => {
 
   const { orderBy, orderDirection } = ORDERING_OPTIONS[selectedOrdering];
 
-  const { repositories, loading } = useRepositories({
+  const { repositories, loading, fetchMore, fetchingMore } = useRepositories({
+    first: 5,
     orderBy,
     orderDirection,
     searchKeyword: debouncedSearchKeyword,
@@ -124,6 +134,8 @@ const RepositoryList = () => {
       searchKeyword={searchKeyword}
       onSearchKeywordChange={setSearchKeyword}
       loading={loading}
+      onEndReached={fetchMore}
+      fetchingMore={fetchingMore}
     />
   );
 };

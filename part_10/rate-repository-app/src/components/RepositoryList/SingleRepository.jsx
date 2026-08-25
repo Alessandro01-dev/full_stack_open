@@ -1,7 +1,7 @@
 import { FlatList, View, StyleSheet } from "react-native";
 import { useParams } from "react-router-native";
 import useRepository from "../../hooks/useRepository";
-import RepositoryItem from "../RepositoryList/RepositoryItem";
+import RepositoryItem from "./RepositoryItem";
 import ReviewItem from "./ReviewItem";
 
 const styles = StyleSheet.create({
@@ -14,7 +14,7 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const SingleRepository = () => {
   const { id } = useParams();
-  const { repository, loading } = useRepository(id);
+  const { repository, loading, fetchMore } = useRepository(id, { first: 3 });
 
   if (loading) {
     return null;
@@ -37,6 +37,8 @@ const SingleRepository = () => {
       ListHeaderComponent={() => (
         <RepositoryItem item={repository} showGithubButton />
       )}
+      onEndReached={fetchMore}
+      onEndReachedThreshold={0.5}
     />
   );
 };
