@@ -39,6 +39,8 @@ const AppBar = () => {
   const authStorage = useAuthStorage();
   const apolloClient = useApolloClient();
 
+  const navigate = useNavigate();
+
   const { data } = useQuery(ME, {
     fetchPolicy: "cache-and-network",
     variables: { includeReviews: false },
@@ -49,6 +51,8 @@ const AppBar = () => {
   const handleSignOut = async () => {
     await authStorage.removeAccessToken();
     await apolloClient.resetStore();
+
+    navigate("/");
   };
 
   return (
