@@ -6,10 +6,11 @@ The focus of these exercises is to build a complete cross-platform mobile applic
 
 ### 📚 Learning Objectives:
 
-- **Introduction to React Native (Part 10a)**: Setting up an Expo project, understanding core components (`View`, `Text`, `FlatList`, `Pressable`), and structuring styles with `StyleSheet`.
-- **React Native basics (Part 10b)**: Implementing navigation with `react-router-native`, environment variables, and theming.
-- **Communicating with server (Part 10c)**: Integrating Apollo Client to fetch data from a GraphQL API, implementing authentication with JWT and `AsyncStorage`, and managing forms with Formik and Yup.
-- **Testing and extending our application (Part 10d)**: Writing component tests with Jest and React Native Testing Library, implementing sorting, filtering, and cursor-based pagination (infinite scrolling), and publishing the application via EAS Update.
+- **Getting started (Chapter 1)**: Setting up the development environment and tools for React Native development with Expo.
+- **Introduction to React Native (Chapter 2)**: Understanding core components (`View`, `Text`, `FlatList`, `Pressable`), structuring styles with `StyleSheet`, and configuring ESLint for the project.
+- **React Native basics (Chapter 3)**: Implementing navigation with `react-router-native`, environment variables, and consistent theming across the application.
+- **Communicating with server (Chapter 4)**: Integrating Apollo Client to fetch data from a GraphQL API, implementing authentication with JWT and `AsyncStorage`, and managing forms with Formik and Yup.
+- **Testing and extending our application (Chapter 5)**: Writing component tests with Jest and React Native Testing Library, implementing sorting, filtering, and cursor-based pagination (infinite scrolling), and publishing the application via EAS Update.
 
 ### 🛠️ Projects & Exercises:
 
@@ -30,10 +31,12 @@ _Built with React Native, Expo, Apollo Client, GraphQL, Formik, Yup, React Route
 ---
 
 ### ⚠️ Note on Environment Variables:
+
 To connect to the GraphQL backend, create a `.env` file inside the `rate-repository-app` directory:
 `EXPO_PUBLIC_APOLLO_URI=http://your_local_ip:4000/graphql`
 
 ### 📱 Try the app:
+
 Scan the QR code below with the Expo Go app to try the published version of the application (connected to the course's pre-deployed backend):
 
 ![QR Code](./qr-code.png)
