@@ -18,15 +18,15 @@ jobs:
           node-version: 24
 
       - name: Install library-backend dependencies
-        working-directory: ./part_8/fs-graphql/library-backend
+        working-directory: ./part_08/fs-graphql/library-backend
         run: npm ci
 
       - name: Install test dependencies
-        working-directory: ./part_8/fs-graphql/tests-chapter4
+        working-directory: ./part_08/fs-graphql/tests-chapter4
         run: npm ci
 
       - name: Run tests
-        working-directory: ./part_8/fs-graphql/tests-chapter4
+        working-directory: ./part_08/fs-graphql/tests-chapter4
         run: npm test
 
 env:
