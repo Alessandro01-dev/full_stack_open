@@ -32,13 +32,15 @@ _Built with React Native, Expo, Apollo Client, GraphQL, Formik, Yup, React Route
 
 ### ⚠️ Note on Environment Variables:
 
-To connect to the GraphQL backend, create a `.env` file inside the `rate-repository-app` directory:
+To connect to the GraphQL backend, create a `.env` file inside the `rate-repository-app` directory:  
 `EXPO_PUBLIC_APOLLO_URI=http://your_local_ip:4000/graphql`
 
 ### 📱 Try the app:
 
-Scan the QR code below with the Expo Go app to try the published version of the application (connected to the course's pre-deployed backend):
+You can run the published version of the application (connected to the course's pre-deployed backend) using an SDK 55 compatible version of Expo Go.
+
+**Direct Expo Link:** [exp://u.expo.dev/ea2cf079-5b80-48f0-b53f-797a0e6b5c28/group/6dddb3c1-6034-4771-9704-8ce495bed9d6](https://expo.dev)
+
+Scan the QR code below with the Expo Go app to launch the project:
 
 ![QR Code](./qr-code.png)
-
-> **Note:** As of SDK 55, Expo Go is temporarily unavailable on the Apple App Store (still pending approval as of this submission). If scanning the QR code with the App Store version of Expo Go on iOS returns a "Project is incompatible" error, this is a known Expo limitation, not an issue with this application — see [Expo's announcement](https://expo.dev/changelog/expo-go-and-app-store-may-2026) for details. The application was verified working through the iOS Simulator using a compatible SDK 55 build of Expo Go, opened via the update's deep link (`exp://u.expo.dev/ea2cf079-5b80-48f0-b53f-797a0e6b5c28/group/6dddb3c1-6034-4771-9704-8ce495bed9d6`).
