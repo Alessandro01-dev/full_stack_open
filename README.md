@@ -50,11 +50,14 @@ This repository contains my solutions for the Full Stack Open course curriculum 
   - _Core Topics:_ Building cross-platform mobile apps for iOS and Android, layout styling with Flexbox, storing secure mobile data, and navigation.
   - _Deliverables:_ `rate-repository-app` mobile interface built with Expo, connecting to the locally containerized `rate-repository-api`.
 
+- **[Part 11: CI/CD](./part_11)**
+  - _Core Topics:_ GitHub Actions pipelines, deployment strategies, semantic/hash versioning, branch protection, pull request reviews, Discord notifications, and periodic health checks.
+  - _Deliverables:_ Two dedicated repositories - see [part_11](./part_11) for links - since these exercises center on repository-level GitHub configuration rather than application code.
+
 ---
 
 ### ⏳ Future Modules (Work in Progress)
 
-- **Part 11: CI/CD**
 - **Part 12: Containers**
 - **Part 13: Using relational databases**
 - **Part 14: Next.js**
