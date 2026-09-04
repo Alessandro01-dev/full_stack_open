@@ -1,11 +1,11 @@
-import { View, StyleSheet, ScrollView, Pressable } from "react-native";
-import Constants from "expo-constants";
-import theme from "../theme";
-import Text from "./Text";
-import { Link } from "react-router-native";
-import { useQuery, useApolloClient } from "@apollo/client/react";
-import { ME } from "../graphql/queries";
-import useAuthStorage from "../hooks/useAuthStorage";
+import { View, StyleSheet, ScrollView, Pressable } from 'react-native'
+import Constants from 'expo-constants'
+import theme from '../theme'
+import Text from './Text'
+import { Link, useNavigate } from 'react-router-native'
+import { useQuery, useApolloClient } from '@apollo/client/react'
+import { ME } from '../graphql/queries'
+import useAuthStorage from '../hooks/useAuthStorage'
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.appBarBg,
   },
   scrollContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingHorizontal: 15,
   },
   tab: {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   tabText: {
     color: theme.colors.white,
   },
-});
+})
 
 const AppBarTab = ({ children, to }) => {
   return (
@@ -32,28 +32,28 @@ const AppBarTab = ({ children, to }) => {
         {children}
       </Text>
     </Link>
-  );
-};
+  )
+}
 
 const AppBar = () => {
-  const authStorage = useAuthStorage();
-  const apolloClient = useApolloClient();
+  const authStorage = useAuthStorage()
+  const apolloClient = useApolloClient()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const { data } = useQuery(ME, {
-    fetchPolicy: "cache-and-network",
+    fetchPolicy: 'cache-and-network',
     variables: { includeReviews: false },
-  });
+  })
 
-  const user = data ? data.me : null;
+  const user = data ? data.me : null
 
   const handleSignOut = async () => {
-    await authStorage.removeAccessToken();
-    await apolloClient.resetStore();
+    await authStorage.removeAccessToken()
+    await apolloClient.resetStore()
 
-    navigate("/");
-  };
+    navigate('/')
+  }
 
   return (
     <View style={styles.container}>
@@ -83,7 +83,7 @@ const AppBar = () => {
         )}
       </ScrollView>
     </View>
-  );
-};
+  )
+}
 
-export default AppBar;
+export default AppBar
