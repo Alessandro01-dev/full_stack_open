@@ -54,10 +54,13 @@ This repository contains my solutions for the Full Stack Open course curriculum 
   - _Core Topics:_ GitHub Actions pipelines, deployment strategies, semantic/hash versioning, branch protection, pull request reviews, Discord notifications, and periodic health checks.
   - _Deliverables:_ Two dedicated repositories - see [part_11](./part_11) for links - since these exercises center on repository-level GitHub configuration rather than application code.
 
+- **[Part 12: Containers](./part_12)**
+  - _Core Topics:_ Docker images and containers, Dockerfiles, Docker Compose orchestration, volumes, Nginx reverse proxies, and dev/production environment setups.
+  - _Deliverables:_ A dedicated repository - see [part_12](./part_12) for the link - since these exercises center on containerizing applications rather than adding application code to the monorepo.
+
 ---
 
 ### ⏳ Future Modules (Work in Progress)
 
-- **Part 12: Containers**
 - **Part 13: Using relational databases**
 - **Part 14: Next.js**
