@@ -16,22 +16,14 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  try {
-    const blog = await Blog.create(req.body);
-    res.status(201).json(blog);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+  const blog = await Blog.create(req.body);
+  res.status(201).json(blog);
 });
 
 router.put("/:id", blogFinder, async (req, res) => {
-  try {
-    req.blog.likes = req.body.likes;
-    await req.blog.save();
-    res.json(req.blog);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+  req.blog.likes = req.body.likes;
+  await req.blog.save();
+  res.json(req.blog);
 });
 
 router.delete("/:id", blogFinder, async (req, res) => {
