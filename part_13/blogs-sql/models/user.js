@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require('sequelize')
+const { Model, DataTypes } = require("sequelize");
 
-const { sequelize } = require('../util/db')
+const { sequelize } = require("../util/db");
 
 class User extends Model {}
 
@@ -15,7 +15,12 @@ User.init(
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
-      validate: { notEmpty: true },
+      validate: {
+        notEmpty: true,
+        isEmail: {
+          msg: "username must be a valid email address",
+        },
+      },
     },
     name: {
       type: DataTypes.STRING,
@@ -26,8 +31,8 @@ User.init(
   {
     sequelize,
     underscored: true,
-    modelName: 'user',
-  }
-)
+    modelName: "user",
+  },
+);
 
-module.exports = User
+module.exports = User;
