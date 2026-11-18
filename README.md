@@ -58,9 +58,12 @@ This repository contains my solutions for the Full Stack Open course curriculum 
   - _Core Topics:_ Docker images and containers, Dockerfiles, Docker Compose orchestration, volumes, Nginx reverse proxies, and dev/production environment setups.
   - _Deliverables:_ A dedicated repository - see [part_12](./part_12) for the link - since these exercises center on containerizing applications rather than adding application code to the monorepo.
 
+- **[Part 13: Using relational databases](./part_13)**
+  - _Core Topics:_ PostgreSQL with Docker, Sequelize models and queries, join tables and many-to-many relationships, migrations with Umzug, server-side sessions, and API testing in GitHub Actions.
+  - _Deliverables:_ `blogs-sql` backend, a relational rewrite of the Blog List API with users, reading lists, sessions and an automated test suite.
+
 ---
 
 ### ⏳ Future Modules (Work in Progress)
 
-- **Part 13: Using relational databases**
 - **Part 14: Next.js**
