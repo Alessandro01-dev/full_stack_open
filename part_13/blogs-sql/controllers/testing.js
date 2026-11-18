@@ -1,10 +1,15 @@
 const router = require("express").Router();
 
-const { Blog, User } = require("../models");
+const { Blog, User, ReadingList, Session } = require("../models");
 
 router.post("/", async (req, res) => {
-  await Blog.destroy({ truncate: true, cascade: true, restartIdentity: true });
-  await User.destroy({ truncate: true, cascade: true, restartIdentity: true });
+  const options = { truncate: true, cascade: true, restartIdentity: true };
+
+  await ReadingList.destroy(options);
+  await Session.destroy(options);
+  await Blog.destroy(options);
+  await User.destroy(options);
+
   res.status(204).end();
 });
 
