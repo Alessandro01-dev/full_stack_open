@@ -2,6 +2,8 @@ const router = require("express").Router();
 
 const { Blog, User, ReadingList } = require("../models");
 
+const { tokenExtractor } = require("../util/middleware");
+
 router.post("/", async (req, res) => {
   const { blogId, userId } = req.body;
 
@@ -28,6 +30,28 @@ router.post("/", async (req, res) => {
 
   const reading = await ReadingList.create({ blogId, userId });
   res.status(201).json(reading);
+});
+
+router.put("/:id", tokenExtractor, async (req, res) => {
+  const reading = await ReadingList.findByPk(req.params.id);
+
+  if (!reading) {
+    return res.status(404).json({ error: ["reading list entry not found"] });
+  }
+
+  if (reading.userId !== req.decodedToken.id) {
+    return res.status(401).json({
+      error: ["you can only mark blogs in your own reading list"],
+    });
+  }
+
+  if (typeof req.body.read !== "boolean") {
+    return res.status(400).json({ error: ["read must be true or false"] });
+  }
+
+  reading.read = req.body.read;
+  await reading.save();
+  res.json(reading);
 });
 
 module.exports = router;
