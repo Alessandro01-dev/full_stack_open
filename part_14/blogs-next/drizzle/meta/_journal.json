@@ -15,6 +15,13 @@
       "when": 1795337071604,
       "tag": "0001_lovely_toad",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795361468584,
+      "tag": "0002_tearful_vengeance",
+      "breakpoints": true
     }
   ]
 }
