@@ -3,23 +3,30 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { addBlog, likeBlog } from "../services/blogs";
+import type { BlogFormState } from "../blogs/new/state";
 
 export const createBlog = async (
-  prevState: { error: string },
+  prevState: BlogFormState,
   formData: FormData,
-) => {
+): Promise<BlogFormState> => {
   const title = formData.get("title") as string;
   const author = formData.get("author") as string;
   const url = formData.get("url") as string;
 
+  const errors: BlogFormState["errors"] = {};
+
   if (!title || title.length < 5) {
-    return { error: "Title must be at least 5 characters long" };
+    errors.title = "Title must be at least 5 characters long";
   }
   if (!author || author.length < 5) {
-    return { error: "Author must be at least 5 characters long" };
+    errors.author = "Author must be at least 5 characters long";
   }
   if (!url || url.length < 5) {
-    return { error: "Url must be at least 5 characters long" };
+    errors.url = "Url must be at least 5 characters long";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return { errors, values: { title, author, url } };
   }
 
   await addBlog(title, author, url);

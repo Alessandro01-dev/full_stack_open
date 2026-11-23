@@ -2,9 +2,12 @@
 
 import { useActionState } from "react";
 import { createBlog } from "../../actions/blogs";
+import type { BlogFormState } from "./state";
+
+const initialState: BlogFormState = { errors: {} };
 
 const NewBlog = () => {
-  const [state, formAction] = useActionState(createBlog, { error: "" });
+  const [state, formAction] = useActionState(createBlog, initialState);
 
   return (
     <div>
@@ -13,23 +16,39 @@ const NewBlog = () => {
         <div>
           <label>
             Title
-            <input type="text" name="title" />
+            <input
+              type="text"
+              name="title"
+              defaultValue={state.values?.title}
+            />
           </label>
+          {state.errors.title && (
+            <p style={{ color: "red" }}>{state.errors.title}</p>
+          )}
         </div>
         <div>
           <label>
             Author
-            <input type="text" name="author" />
+            <input
+              type="text"
+              name="author"
+              defaultValue={state.values?.author}
+            />
           </label>
+          {state.errors.author && (
+            <p style={{ color: "red" }}>{state.errors.author}</p>
+          )}
         </div>
         <div>
           <label>
             Url
-            <input type="url" name="url" />
+            <input type="url" name="url" defaultValue={state.values?.url} />
           </label>
+          {state.errors.url && (
+            <p style={{ color: "red" }}>{state.errors.url}</p>
+          )}
         </div>
         <button type="submit">Create</button>
-        {state.error && <p style={{ color: "red" }}>{state.error}</p>}
       </form>
     </div>
   );
