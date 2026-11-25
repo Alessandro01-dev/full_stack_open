@@ -5,8 +5,9 @@ import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { db } from "@/db";
 import { users } from "@/db/schema";
-import { getUserByUsername } from "@/app/services/users";
+import { getUserByUsername, setUserToken } from "@/app/services/users";
 import type { RegisterFormState } from "@/app/register/state";
+import { getCurrentUser } from "@/app/services/session";
 
 export const registerUser = async (
   prevState: RegisterFormState,
@@ -43,4 +44,14 @@ export const registerUser = async (
 
   revalidatePath("/users");
   redirect("/login");
+};
+
+export const generateToken = async () => {
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/login");
+  }
+
+  await setUserToken(user.id, crypto.randomUUID());
+  revalidatePath("/me");
 };

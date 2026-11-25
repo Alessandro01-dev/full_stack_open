@@ -20,3 +20,7 @@ export const getUserByUsername = async (username: string) => {
     where: eq(users.username, username),
   });
 };
+
+export const setUserToken = async (id: number, token: string) => {
+  await db.update(users).set({ token }).where(eq(users.id, id));
+};
