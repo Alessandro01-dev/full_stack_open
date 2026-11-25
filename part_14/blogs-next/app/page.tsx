@@ -1,8 +1,8 @@
 const Home = () => {
   return (
-    <div>
-      <h2>blog app</h2>
-      <div>An example app for Full Stack Open Next.js</div>
+    <div className="mx-auto max-w-2xl p-6">
+      <h2 className="mb-4 text-2xl font-bold">blog app</h2>
+      <p>An example app for Full Stack Open Next.js</p>
     </div>
   );
 };
