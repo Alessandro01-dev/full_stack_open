@@ -24,3 +24,14 @@ export const getUserByUsername = async (username: string) => {
 export const setUserToken = async (id: number, token: string) => {
   await db.update(users).set({ token }).where(eq(users.id, id));
 };
+
+export const getUserByToken = async (token: string) => {
+  return db.query.users.findFirst({
+    where: eq(users.token, token),
+    with: {
+      blogs: {
+        columns: { author: true, title: true, url: true },
+      },
+    },
+  });
+};
