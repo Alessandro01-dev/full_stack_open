@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { addBlog, getBlogById, likeBlog } from "../services/blogs";
-import { addToReadingList } from "../services/readingList";
+import { addToReadingList, markAsRead } from "../services/readingList";
 import { getCurrentUser } from "../services/session";
 import type { BlogFormState } from "../blogs/new/state";
 
@@ -64,5 +64,16 @@ export const addToReadingListAction = async (formData: FormData) => {
 
   await addToReadingList(user.id, blogId);
   revalidatePath(`/blogs/${blogId}`);
+  revalidatePath("/me");
+};
+
+export const markAsReadAction = async (formData: FormData) => {
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const entryId = Number(formData.get("entryId"));
+  await markAsRead(user.id, entryId);
   revalidatePath("/me");
 };

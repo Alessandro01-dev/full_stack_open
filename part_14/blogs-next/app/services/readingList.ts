@@ -23,3 +23,10 @@ export const addToReadingList = async (userId: number, blogId: number) => {
   }
   await db.insert(readingList).values({ userId, blogId });
 };
+
+export const markAsRead = async (userId: number, entryId: number) => {
+  await db
+    .update(readingList)
+    .set({ read: true })
+    .where(and(eq(readingList.id, entryId), eq(readingList.userId, userId)));
+};
