@@ -1,6 +1,6 @@
 import { asc, desc, eq, sql } from "drizzle-orm";
 import { db } from "../../db";
-import { blogs } from "../../db/schema";
+import { blogs, readingList } from "../../db/schema";
 
 export const getBlogs = async () => {
   return db.query.blogs.findMany({
@@ -8,8 +8,18 @@ export const getBlogs = async () => {
   });
 };
 
-export const addBlog = async (title: string, author: string, url: string) => {
-  await db.insert(blogs).values({ title, author, url });
+export const addBlog = async (
+  title: string,
+  author: string,
+  url: string,
+  userId: number,
+) => {
+  const [blog] = await db
+    .insert(blogs)
+    .values({ title, author, url, userId })
+    .returning({ id: blogs.id });
+
+  await db.insert(readingList).values({ userId, blogId: blog.id });
 };
 
 export const getBlogById = async (id: number) => {

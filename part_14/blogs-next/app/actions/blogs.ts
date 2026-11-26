@@ -1,13 +1,21 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { addBlog, likeBlog } from "../services/blogs";
+import { addBlog, getBlogById, likeBlog } from "../services/blogs";
+import { addToReadingList } from "../services/readingList";
+import { getCurrentUser } from "../services/session";
 import type { BlogFormState } from "../blogs/new/state";
 
 export const createBlog = async (
   prevState: BlogFormState,
   formData: FormData,
 ): Promise<BlogFormState> => {
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/login");
+  }
+
   const title = formData.get("title") as string;
   const author = formData.get("author") as string;
   const url = formData.get("url") as string;
@@ -28,9 +36,10 @@ export const createBlog = async (
     return { errors, values: { title, author, url } };
   }
 
-  await addBlog(title, author, url);
+  await addBlog(title, author, url, user.id);
 
   revalidatePath("/blogs");
+  revalidatePath("/me");
   return { errors: {}, success: true };
 };
 
@@ -39,4 +48,21 @@ export const likeBlogAction = async (formData: FormData) => {
   await likeBlog(id);
   revalidatePath(`/blogs/${id}`);
   revalidatePath("/blogs");
+};
+
+export const addToReadingListAction = async (formData: FormData) => {
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/login");
+  }
+
+  const blogId = Number(formData.get("blogId"));
+  const blog = await getBlogById(blogId);
+  if (!blog || blog.userId === user.id) {
+    return;
+  }
+
+  await addToReadingList(user.id, blogId);
+  revalidatePath(`/blogs/${blogId}`);
+  revalidatePath("/me");
 };

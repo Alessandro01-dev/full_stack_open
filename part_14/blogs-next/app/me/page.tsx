@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "../services/session";
+import { getReadingList } from "../services/readingList";
 import { generateToken } from "../actions/users";
 
 const MePage = async () => {
@@ -8,6 +10,8 @@ const MePage = async () => {
   if (!user) {
     redirect("/login");
   }
+
+  const readingList = await getReadingList(user.id);
 
   return (
     <div className="mx-auto max-w-2xl p-6">
@@ -37,6 +41,30 @@ const MePage = async () => {
           {user.token ? "Generate new token" : "Generate token"}
         </button>
       </form>
+
+      <h3 className="mb-2 mt-6 text-lg font-semibold">Reading list</h3>
+      {readingList.length === 0 ? (
+        <p className="text-gray-500">Your reading list is empty.</p>
+      ) : (
+        <ul className="space-y-2">
+          {readingList.map((entry) => (
+            <li
+              key={entry.id}
+              className="rounded border p-3 hover:bg-gray-500/10"
+            >
+              <Link
+                href={`/blogs/${entry.blog.id}`}
+                className="text-blue-500 hover:underline"
+              >
+                {entry.blog.title}
+              </Link>
+              <span className="ml-2 text-sm text-gray-500">
+                by {entry.blog.author} · {entry.read ? "read" : "not read yet"}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

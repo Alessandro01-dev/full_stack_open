@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { getBlogById } from "../../services/blogs";
-import { likeBlogAction } from "../../actions/blogs";
+import { getCurrentUser } from "../../services/session";
+import { isInReadingList } from "../../services/readingList";
+import { likeBlogAction, addToReadingListAction } from "../../actions/blogs";
 
 const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
@@ -9,6 +11,10 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   if (!blog) {
     notFound();
   }
+
+  const user = await getCurrentUser();
+  const isOwner = !!user && blog.userId === user.id;
+  const inList = user ? await isInReadingList(user.id, blog.id) : false;
 
   return (
     <div className="mx-auto max-w-2xl p-6">
@@ -35,6 +41,23 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
             like
           </button>
         </form>
+        {user && !isOwner && (
+          <div className="pt-2">
+            {inList ? (
+              <p className="text-gray-500">In your reading list</p>
+            ) : (
+              <form action={addToReadingListAction}>
+                <input type="hidden" name="blogId" value={blog.id} />
+                <button
+                  type="submit"
+                  className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-500"
+                >
+                  add to reading list
+                </button>
+              </form>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
