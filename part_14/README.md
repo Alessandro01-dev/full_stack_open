@@ -13,7 +13,8 @@ The focus of these exercises is to build a full-stack application with **Next.js
 ### 🛠️ Projects & Exercises:
 
 - **[Blogs Next](./blogs-next)**  
-  _A Next.js version of the Blog List application, built with the App Router, TypeScript, Tailwind CSS, Drizzle ORM and a Neon PostgreSQL database, deployed on Vercel._
+  _A Next.js version of the Blog List application, built with the App Router, TypeScript, Tailwind CSS, Drizzle ORM and a Neon PostgreSQL database, deployed on Vercel._  
+  _Live demo: [full-stack-open-za1o.vercel.app](https://full-stack-open-za1o.vercel.app)_
   - **Blogs**: _List ordered by number of likes, search by title through the `?filter=` URL parameter (a GET form handled by a Server Component), an individual blog page with a like button implemented as a Server Action, and a creation form with server-side validation that keeps the typed values after an error._
   - **Users**: _A users list and a `/users/[username]` page that loads the user and their blogs with a single Drizzle relational query._
   - **Authentication**: _Login with the NextAuth credentials provider and JWT sessions, and registration with validation (minimum lengths, password confirmation, unique username) and `bcrypt` password hashing._
