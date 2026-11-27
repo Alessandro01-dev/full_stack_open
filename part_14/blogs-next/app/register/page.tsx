@@ -24,7 +24,12 @@ export default function RegisterPage() {
             />
           </label>
           {state.errors.username && (
-            <p className="mt-1 text-sm text-red-500">{state.errors.username}</p>
+            <p
+              className="mt-1 text-sm text-red-500"
+              data-testid="username-error"
+            >
+              {state.errors.username}
+            </p>
           )}
         </div>
         <div>
@@ -49,12 +54,17 @@ export default function RegisterPage() {
             />
           </label>
           {state.errors.password && (
-            <p className="mt-1 text-sm text-red-500">{state.errors.password}</p>
+            <p
+              className="mt-1 text-sm text-red-500"
+              data-testid="password-error"
+            >
+              {state.errors.password}
+            </p>
           )}
         </div>
         <div>
           <label className="block">
-            <span className="mb-1 block font-medium">Confirm password</span>
+            <span className="mb-1 block font-medium">Confirm Password</span>
             <input
               type="password"
               name="passwordConfirm"
@@ -62,7 +72,10 @@ export default function RegisterPage() {
             />
           </label>
           {state.errors.passwordConfirm && (
-            <p className="mt-1 text-sm text-red-500">
+            <p
+              className="mt-1 text-sm text-red-500"
+              data-testid="passwordConfirm-error"
+            >
               {state.errors.passwordConfirm}
             </p>
           )}
@@ -70,6 +83,7 @@ export default function RegisterPage() {
         <button
           type="submit"
           className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-500"
+          data-testid="register-button"
         >
           Register
         </button>

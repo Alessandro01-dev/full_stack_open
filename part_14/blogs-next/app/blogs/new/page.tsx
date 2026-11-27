@@ -54,7 +54,7 @@ const NewBlog = () => {
         </div>
         <div>
           <label className="block">
-            <span className="mb-1 block font-medium">Url</span>
+            <span className="mb-1 block font-medium">URL</span>
             <input
               type="url"
               name="url"
@@ -69,6 +69,7 @@ const NewBlog = () => {
         <button
           type="submit"
           className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-500"
+          data-testid="create-blog-button"
         >
           Create
         </button>

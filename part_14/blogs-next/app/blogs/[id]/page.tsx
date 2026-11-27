@@ -17,10 +17,12 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const inList = user ? await isInReadingList(user.id, blog.id) : false;
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      <h2 className="mb-4 text-2xl font-bold">{blog.title}</h2>
+    <div className="mx-auto max-w-2xl p-6" data-testid="blog-detail">
+      <h2 className="mb-4 text-2xl font-bold" data-testid="blog-title">
+        {blog.title}
+      </h2>
       <div className="space-y-2 rounded border p-4">
-        <p>
+        <p data-testid="blog-author">
           <span className="font-semibold">Author:</span> {blog.author}
         </p>
         <p>
@@ -51,6 +53,7 @@ const BlogPage = async ({ params }: { params: Promise<{ id: string }> }) => {
                 <button
                   type="submit"
                   className="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-500"
+                  data-testid="add-to-reading-list-button"
                 >
                   add to reading list
                 </button>

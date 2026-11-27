@@ -12,6 +12,7 @@ export default function Notification() {
       className={`mx-auto mb-4 mt-4 max-w-2xl rounded px-4 py-2 text-white ${
         type === "success" ? "bg-green-600" : "bg-red-600"
       }`}
+      data-testid="notification"
     >
       {message}
     </div>

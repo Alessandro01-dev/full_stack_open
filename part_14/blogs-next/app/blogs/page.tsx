@@ -24,10 +24,12 @@ const Blogs = async ({
           placeholder="search by title"
           defaultValue={filter ?? ""}
           className="flex-1 rounded border px-3 py-2"
+          data-testid="filter-input"
         />
         <button
           type="submit"
           className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-500"
+          data-testid="search-button"
         >
           search
         </button>
@@ -39,7 +41,7 @@ const Blogs = async ({
           </Link>
         </div>
       )}
-      <ul className="space-y-2">
+      <ul className="space-y-2" data-testid="blogs-list">
         {blogs.map((blog) => (
           <li key={blog.id} className="rounded border p-3 hover:bg-gray-500/10">
             <Link
