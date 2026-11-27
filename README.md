@@ -62,8 +62,6 @@ This repository contains my solutions for the Full Stack Open course curriculum 
   - _Core Topics:_ PostgreSQL with Docker, Sequelize models and queries, join tables and many-to-many relationships, migrations with Umzug, server-side sessions, and API testing in GitHub Actions.
   - _Deliverables:_ `blogs-sql` backend, a relational rewrite of the Blog List API with users, reading lists, sessions and an automated test suite.
 
----
-
-### ⏳ Future Modules (Work in Progress)
-
-- **Part 14: Next.js**
+- **[Part 14: Next.js](./part_14)**
+  - _Core Topics:_ Next.js App Router, Server Components and Server Actions, server side rendering, PostgreSQL with Drizzle ORM and Neon, authentication with NextAuth, Tailwind CSS, MDX, and end-to-end tests with Playwright in GitHub Actions.
+  - _Deliverables:_ `blogs-next`, a full-stack rewrite of the Blog List app with users, a reading list, API token access and an automated test suite, deployed on Vercel.
