@@ -1,4 +1,4 @@
-name: API Tests (part 13)
+name: Part 13 - Blogs API tests
 
 on:
   push:

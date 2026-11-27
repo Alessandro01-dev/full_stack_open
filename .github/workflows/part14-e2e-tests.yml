@@ -1,4 +1,4 @@
-name: Part 14 End-to-End Tests
+name: Part 14 - Blogs E2E tests
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Patientor E2E Tests
+name: Part 09 - Patientor E2E tests
 
 on:
   push:

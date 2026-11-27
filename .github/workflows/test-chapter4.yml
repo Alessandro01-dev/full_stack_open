@@ -1,4 +1,4 @@
-name: Test library-backend
+name: Part 08 - Library backend tests
 
 on:
   push:

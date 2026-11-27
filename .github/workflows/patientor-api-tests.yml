@@ -1,4 +1,4 @@
-name: Patientor API Tests
+name: Part 09 - Patientor API tests
 
 on:
   push:

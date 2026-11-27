@@ -1,4 +1,4 @@
-name: Health app E2E Tests
+name: Part 09 - Healthapp E2E tests
 
 on:
   push:
